@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class PrepareDataset {
-    public static List<IrisData> readIrisDataSet(String path) {
+    public static List<IrisData> readDataSet(String path) {
         List<IrisData> irisDataSet = new ArrayList<>();
         try {
             BufferedReader bf = new BufferedReader(new FileReader(path));
             String line;
             while ((line = bf.readLine()) != null) {
-                line = line.trim();
                 if (line.trim().isEmpty() || line.toLowerCase().startsWith("sepal")) continue;
                 String[] values = line.split(",");
                 if (values.length < 5) continue;
@@ -53,13 +52,12 @@ public class PrepareDataset {
                 trainSet.add(irisClassData.get(i));
             }
 
-            for (int i =trainSize; i < irisClassData.size(); i++) { // and rest of it to testSet
+            for (int i = trainSize; i < irisClassData.size(); i++) { // and rest of it to testSet
                 testSet.add(irisClassData.get(i));
             }
 
             Collections.shuffle(trainSet, new Random());
             Collections.shuffle(testSet, new Random());
-
         }
     }
 }

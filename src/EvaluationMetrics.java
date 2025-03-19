@@ -6,6 +6,7 @@ public class EvaluationMetrics {
             throw new IllegalArgumentException("Lists must be of same size. Incorrect result :(");
         }
         int amountOfCorrect= 0;
+
         for (int i = 0; i < realClasses.size(); i++) {
             if(realClasses.get(i).equals(predictedClasses.get(i))) {
                 amountOfCorrect++;

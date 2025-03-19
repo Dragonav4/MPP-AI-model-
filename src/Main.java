@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String csvFilePath = "src/data/iris.csv";  // Adjust path as needed
-        List<IrisData> dataset = PrepareDataset.readIrisDataSet(csvFilePath);
+        String csvFilePath = "src/data/iris.csv";
+        List<IrisData> dataset = PrepareDataset.readDataSet(csvFilePath);
 
         List<IrisData> trainSet = new ArrayList<>();
         List<IrisData> testSet  = new ArrayList<>();
@@ -26,6 +26,7 @@ public class Main {
                 realClasses.add(testObs.getIrisClass());
                 predictedClasses.add(prediction);
             }
+
             double accuracy = EvaluationMetrics.measureAccuracy(realClasses, predictedClasses);
             modelStats.put(k, accuracy);
             //System.out.println("k = " + k + " => Accuracy: " + (accuracy * 100.0) + " %");
@@ -79,7 +80,6 @@ public class Main {
                     break;
 
                 case 3:
-                    // Exit program
                     System.out.println("Exiting...");
                     running = false;
                     break;

@@ -60,4 +60,25 @@ public class PrepareDataset {
             Collections.shuffle(testSet, new Random());
         }
     }
+
+    //Perceptron
+    public static double[][] toFeatures(List<IrisData> dataSet, int f1, int f2) {
+        double[][] features = new double[dataSet.size()][2]; // size as dataSet and 2 columns
+        for(int i =0; i< dataSet.size(); i++) {
+            IrisData irisData = dataSet.get(i);
+            features[i][0] = irisData.getFeaturesOfIrisByIndex(f1); //sepal_width
+            features[i][1] = irisData.getFeaturesOfIrisByIndex(f2); //sepal_length
+        }
+        return features;
+    }
+
+    public static double[] toLabels(List<IrisData> dataSet) {
+        double[] labels = new double[dataSet.size()];
+        for (int i =0; i < dataSet.size(); i++) {
+            String irisClass = dataSet.get(i).getIrisClass().toLowerCase();
+            labels[i] = irisClass.contains("setosa") ? 1 : 0;
+        }
+        return labels;
+    }
+
 }

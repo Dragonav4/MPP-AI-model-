@@ -21,6 +21,16 @@ public class IrisData { //storing a data from IrisData
                 this.sepal_width,
         };
     }
+    public float getFeaturesOfIrisByIndex(int index) {
+        return switch (index) {
+            case 0 -> sepal_width;
+            case 1 -> sepal_length;
+            case 2 -> petal_width;
+            case 3 -> petal_length;
+            default -> throw new IllegalArgumentException("Uncorrected index provided :/");
+        };
+    }
+
     public String getIrisClass() {
         return irisClass;
     }

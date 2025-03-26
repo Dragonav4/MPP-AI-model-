@@ -1,3 +1,12 @@
+package Runners;
+
+import Plots.AccuracyPlot;
+import Plots.DecisionBoundaryPlot;
+import Utils.EvaluationMetrics;
+import Utils.PrepareDataset;
+import dataClass.IrisData;
+import supervised_algorithms.Perceptron;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +17,7 @@ public class PerceptronRunner {
             Scanner sc
     ) {
         double[][] trainFeatures = PrepareDataset.toFeatures(trainSet, 1, 2); // sepal_width and // sepal_length
-        double[][] testFeatures = PrepareDataset.toFeatures(testSet, 1, 2); // remake from List<IrisData> -> double[][]
+        double[][] testFeatures = PrepareDataset.toFeatures(testSet, 1, 2); // remake from List<dataClass.IrisData> -> double[][]
 
         double[] trainLabels = PrepareDataset.toLabels(trainSet); // setosa -> 0 versicolor ->1
         double[] testLabels = PrepareDataset.toLabels(testSet);
@@ -32,8 +41,8 @@ public class PerceptronRunner {
 
         double accuracy = EvaluationMetrics.measurePerceptronAccuracy(testLabels, perceptronPredicted);
         double fmeasure = EvaluationMetrics.fmeasure(testLabels, perceptronPredicted, 0);
-        System.out.printf("Perceptron: accuracy on test set = %.2f%%\n", accuracy * 100.0);
-        System.out.printf("Perceptron: fmeasure: %.2f%%\n", fmeasure * 100.0);
+        System.out.printf("supervised_algorithms.Perceptron: accuracy on test set = %.2f%%\n", accuracy * 100.0);
+        System.out.printf("supervised_algorithms.Perceptron: fmeasure: %.2f%%\n", fmeasure * 100.0);
 
         return perceptron;
     }
@@ -49,7 +58,7 @@ public class PerceptronRunner {
 
         int predictedLabel = perceptron.predictP(newObs);
         String predClass = (predictedLabel == 1) ? "Iris-setosa" : "Iris-versicolor";
-        System.out.println("Predicted Iris Class (Perceptron): " + predClass);
+        System.out.println("Predicted Iris Class (supervised_algorithms.Perceptron): " + predClass);
     }
 }
 

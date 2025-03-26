@@ -1,3 +1,7 @@
+package supervised_algorithms;
+
+import dataClass.IrisData;
+
 import java.util.*;
 
 public class KNearestNeighbours {

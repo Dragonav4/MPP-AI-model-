@@ -1,3 +1,4 @@
+package supervised_algorithms;
 import java.util.ArrayList;
 
 public class Perceptron {
@@ -56,4 +57,5 @@ public class Perceptron {
     public double getThreshold() {
         return threshold;
     }
+
 }

@@ -1,4 +1,6 @@
-public class IrisData { //storing a data from IrisData
+package dataClass;
+
+public class IrisData { //storing a data from dataClass.IrisData
     float sepal_length;
     float sepal_width;
     float petal_length;
@@ -36,7 +38,7 @@ public class IrisData { //storing a data from IrisData
     }
     @Override
     public String toString() {
-        return STR."IrisData{sepal_length=\{sepal_length}, sepal_width=\{sepal_width}, petal_length=\{petal_length}, petal_width=\{petal_width}, irisClass='\{irisClass}\{'\''}\{'}'}";
+        return STR."dataClass.IrisData{sepal_length=\{sepal_length}, sepal_width=\{sepal_width}, petal_length=\{petal_length}, petal_width=\{petal_width}, irisClass='\{irisClass}\{'\''}\{'}'}";
     }
 
 

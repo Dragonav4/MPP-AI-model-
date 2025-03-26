@@ -1,3 +1,9 @@
+import Runners.KNNRunner;
+import Runners.PerceptronRunner;
+import Utils.PrepareDataset;
+import dataClass.IrisData;
+import supervised_algorithms.Perceptron;
+
 import java.util.*;
 
 public class Main {
@@ -20,7 +26,7 @@ public class Main {
             System.out.println("1 - Predict new Observation (KNN)");
             System.out.println("2 - Statistics KNN");
             System.out.println("3 - Train perceptron");
-            System.out.println("4 - Predict new Observation (Perceptron)");
+            System.out.println("4 - Predict new Observation (supervised_algorithms.Perceptron)");
             System.out.println("5 - Exit");
 
             int choice = sc.nextInt();

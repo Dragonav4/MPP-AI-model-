@@ -1,11 +1,10 @@
 package knn;
 
-import knn.IrisData;
 
 import java.util.*;
 
 public class KNearestNeighbours {
-    private double k; // amount of neighbours
+    private final double k; // amount of neighbours
     private final List<IrisData> trainDataSet;
 
     public KNearestNeighbours(double k, List<IrisData> trainDataSet) {

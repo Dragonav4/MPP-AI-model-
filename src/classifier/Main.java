@@ -42,15 +42,9 @@ public class Main {
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 1 -> {
-                    KNNRunner.predictNewObservation(trainSet, modelStats, sc);
-                }
-                case 2 -> {
-                    KNNRunner.printStats(modelStats);
-                }
-                case 3 -> {
-                    perceptron = PerceptronRunner.runPerceptron(trainSet, testSet, sc);
-                }
+                case 1 -> KNNRunner.predictNewObservation(trainSet, modelStats, sc);
+                case 2 -> KNNRunner.printStats(modelStats);
+                case 3 -> perceptron = PerceptronRunner.runPerceptron(trainSet, testSet, sc);
                 case 4 -> {
                     if (perceptron == null) {
                         System.out.println("Firstly create a perceptron (выберите пункт 3).");
@@ -62,9 +56,7 @@ public class Main {
                     System.out.println("Exiting..");
                     running = false;
                 }
-                case 5 -> {
-                    PerceptronRunner.runLanguagePerceptronTraining(sc, labelMap, sampleTexts);
-                }
+                case 5 -> PerceptronRunner.runLanguagePerceptronTraining(sc, labelMap, sampleTexts);
                 default -> {System.out.println("Unknown case");}
             }
         }

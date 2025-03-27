@@ -26,8 +26,7 @@ public class PerceptronUtils {
     public static String predictLanguageFromText(MultiClassPerceptron mcPerceptron, String text, Map<Double, String> labelMap) {
         double[] vector = TextProcessor.textToVector(text);
         double predictedLabel = mcPerceptron.predict(vector);
-        String predictedLanguage = labelMap.getOrDefault(predictedLabel, "Unknown language");
-        return predictedLanguage;
+        return labelMap.getOrDefault(predictedLabel, "Unknown language");
     }
 
     public static void demoLanguageClassificationFromFile(MultiClassPerceptron mcPerceptron, Map<Double, String> labelMap, Map<String, String> sampleTexts, double alpha, int epochs) {

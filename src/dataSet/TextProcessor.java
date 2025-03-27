@@ -1,7 +1,4 @@
 package dataSet;
-
-import java.util.Arrays;
-
 public class TextProcessor {
     public static double[] textToVector(String text) {
         double[] vector = new double[26];

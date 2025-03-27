@@ -1,6 +1,6 @@
-package Utils;
+package dataSet;
 
-import dataClass.IrisData;
+import knn.IrisData;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -65,7 +65,7 @@ public class PrepareDataset {
         }
     }
 
-    //supervised_algorithms.Perceptron
+    //classifier.Perceptron
     public static double[][] toFeatures(List<IrisData> dataSet, int f1, int f2) {
         double[][] features = new double[dataSet.size()][2]; // size as dataSet and 2 columns
         for(int i =0; i< dataSet.size(); i++) {
@@ -86,3 +86,4 @@ public class PrepareDataset {
     }
 
 }
+

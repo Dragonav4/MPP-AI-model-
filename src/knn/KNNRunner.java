@@ -1,8 +1,6 @@
-package Runners;
+package knn;
 
-import Utils.EvaluationMetrics;
-import dataClass.IrisData;
-import supervised_algorithms.KNearestNeighbours;
+import classifier.EvaluationMetrics;
 
 import java.util.*;
 public class KNNRunner {

@@ -1,6 +1,6 @@
-package supervised_algorithms;
+package knn;
 
-import dataClass.IrisData;
+import knn.IrisData;
 
 import java.util.*;
 

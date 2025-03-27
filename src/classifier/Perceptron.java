@@ -1,19 +1,25 @@
-package supervised_algorithms;
+package classifier;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
 
 public class Perceptron {
-    private int dimension; // amount of features
-    private double[] weights;
+    private final int dimension; // amount of features
+    private final double[] weights;
     private double threshold;
     private double alpha;
     private int epochs;
 
-    public Perceptron(int dimension, double threshold, double alpha, int epochs) {
-        this.dimension = dimension; //amount of elem in vector
-        this.weights = new double[dimension];
+    public Perceptron(int inputSize, int dimension, double threshold, double alpha, int epochs) {
+        this.weights = new double[inputSize];
         this.threshold = threshold;
         this.alpha = alpha;
         this.epochs = epochs;
+        this.dimension = inputSize;
+        Random random = new Random();
+        for (int i = 0; i < inputSize; i++) {
+            this.weights[i] = -1 + 2 * random.nextDouble();
+        }
     }
 
     public double[] train(double[][] trainInputs, double[] labels, double alpha) { //delta-rule
@@ -37,7 +43,7 @@ public class Perceptron {
             epoch++;
             double correlation = (double) (trainInputs.length-mistakes)/ trainInputs.length;
             accuracyPerEpoch.add(correlation);
-            System.out.printf("Correct predictions for current epoch %d are: %.2f%%%n\n", epoch,correlation * 100);
+            //System.out.printf("Correct predictions for current epoch %d are: %.2f%%%n\n", epoch,correlation * 100);
         }while (epoch < 100 && mistakes !=0);
         return accuracyPerEpoch.stream().mapToDouble(Double::doubleValue).toArray();
     }
@@ -50,6 +56,13 @@ public class Perceptron {
         sum -= threshold;
         return (sum >= 0.0) ? 1 : 0;
     }
+    public double rawOutput(double[] input) {
+        double sum = 0;
+        for (int i = 0; i < dimension; i++) {
+            sum += weights[i] * input[i];
+        }
+        return sum - threshold;
+    }
     public double[] getWeights() {
         return weights;
     }
@@ -57,5 +70,4 @@ public class Perceptron {
     public double getThreshold() {
         return threshold;
     }
-
 }

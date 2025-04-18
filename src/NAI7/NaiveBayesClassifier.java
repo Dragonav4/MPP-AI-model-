@@ -45,15 +45,7 @@ public class NaiveBayesClassifier {
             priors.put(entry.getKey(), (double) entry.getValue()/total);
         }
     }
-    public static class Observation {
-        public Map<String,String> attributes;
-        public String label;
 
-        public Observation(Map<String, String> attributes, String label) {
-            this.attributes = attributes;
-            this.label = label;
-        }
-    }
     public double simpleSmoothing(double numerator, double denominator, int classes) {
         return (numerator + 1) / (denominator + classes);
     }
@@ -142,106 +134,16 @@ public class NaiveBayesClassifier {
         }
         return c;
     }
-}
-class EvaluationMetrics {
-
-    public static void evaluateBinary(List<String> predictions, List<String> groundTruth, String positiveClass) {
-        // positiveClass = "yes"
-        // negativeClass = "no"
-
-        int tp = 0, tn = 0, fp = 0, fn = 0;
-        for (int i = 0; i < predictions.size(); i++) {
-            String pred = predictions.get(i);
-            String real = groundTruth.get(i);
-
-            boolean predPos = pred.equals(positiveClass);
-            boolean realPos = real.equals(positiveClass);
-
-            if (predPos && realPos) {
-                tp++;
-            } else if (predPos && !realPos) {
-                fp++;
-            } else if (!predPos && !realPos) {
-                tn++;
-            } else if (!predPos && realPos) {
-                fn++;
-            }
-        }
-
-        double accuracy = ((tp + tn) / (double) (tp + tn + fp + fn)) *100;
-        double precision = tp + fp == 0 ? 0 : tp / (double) (tp + fp) * 100;
-        double recall = tp + fn == 0 ? 0 : tp / (double) (tp + fn) * 100;
-        double f1 = ((precision + recall) == 0 ? 0 : 2 * (precision * recall) / (precision + recall));
-
-        System.out.println("Accuracy:  " + String.format("%.3f", accuracy)+"%");
-        System.out.println("Precision: " + String.format("%.3f", precision)+"%");
-        System.out.println("Recall:    " + String.format("%.3f", recall)+"%");
-        System.out.println("F1 Score:  " + String.format("%.3f", f1)+"%");
-    }
-    public static List<NaiveBayesClassifier.Observation> readFileContent(File file) {
-        String content = Dataset.readFileContent(file);
-        if (content.isEmpty()) {
-            throw new IllegalArgumentException("Dataset is empty or not found: " + file.getPath());
-        }
-        String[] rawLines;
-        if(content.contains("\n") || content.contains("\r")) {
-            rawLines = content.split("\\R");
-        } else {
-            rawLines=content.split("\\s+");
-        }
-        if (rawLines.length < 2) {
-            throw new IllegalArgumentException("CSV file must contain a header and at least one data line: " + file.getPath());
-        }
-
-        String[] headers = rawLines[0].split(",");
-        List<NaiveBayesClassifier.Observation> list = new ArrayList<>();
-
-        for (int i = 1; i < rawLines.length; i++) {
-            String line = rawLines[i].trim();
-            if (line.isEmpty()) continue;
-            String[] parts = line.split(",");
-            Map<String, String> attrs = new HashMap<>();
-            for (int j = 0; j < parts.length - 1; j++) {
-                attrs.put(headers[j].trim(), parts[j].trim());
-            }
-            String label = parts[parts.length - 1].trim();
-            list.add(new NaiveBayesClassifier.Observation(attrs, label));
-        }
-        return list;
-    }
 
 
-    public static void main(String[] args) {
-
-        List<NaiveBayesClassifier.Observation> dataset =
-                readFileContent(new File("/Users/dragonav/Desktop/Study/4thSemestr/MiniProject/MPP/resources/outgame"));
-        Collections.shuffle(dataset);
-
-        if (dataset.size() < 3) {
-            throw new IllegalStateException("Dataset must contain at least 3 rows (found " + dataset.size() + ")");
-        }
-
-        List<NaiveBayesClassifier.Observation> testSet  = dataset.subList(0, 2);               // first 2 randomized rows
-        List<NaiveBayesClassifier.Observation> trainSet = dataset.subList(2, dataset.size());  // the rest for training
-
-        System.out.println("Train set size: " + trainSet.size());
-        System.out.println("Test set size: " + testSet.size());
-
-        Map<String, Map<String, Map<String, Double>>> condProb = new HashMap<>();
-        Map<String, Set<String>> attrDomains = new HashMap<>();
-        NaiveBayesClassifier classifier = new NaiveBayesClassifier(false, trainSet, condProb, attrDomains);
-
-        List<String> predictions = new ArrayList<>();
-        List<String> groundTruth = new ArrayList<>();
-        for (NaiveBayesClassifier.Observation obs : testSet) {
-            String pred = classifier.predict(obs.attributes);
-            predictions.add(pred);
-            groundTruth.add(obs.label);
-        }
-
-        System.out.println("Predictions: " + predictions);
-        System.out.println("Ground truth: " + groundTruth);
-
-        evaluateBinary(predictions, groundTruth, "yes");
+    public void train(List<Observation> newTrainData) {
+        // replace the training dataset
+        this.trainDataSet.clear();
+        this.trainDataSet.addAll(newTrainData);
+        // recalculate domains, priors and conditional probabilities
+        calculateAttributeDomains();
+        calculatePriors();
+        calculateConditionalProbabilities();
     }
 }
+

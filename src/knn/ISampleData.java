@@ -1,6 +1,9 @@
 package knn;
 
-public interface ISampleData {
+import Utils.HasLabel;
+import Utils.Quantizer.NumericDataPoint;
+
+public interface ISampleData extends NumericDataPoint {
 
     double[] getFeatures();
 

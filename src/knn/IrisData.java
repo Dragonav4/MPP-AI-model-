@@ -1,6 +1,8 @@
 package knn;
 
-public class IrisData implements ISampleData { //storing a data from knn.IrisData
+import Utils.HasLabel;
+
+public class IrisData implements ISampleData, HasLabel { //storing a data from knn.IrisData
     double[] features;
     String itemClass;
 
@@ -60,4 +62,13 @@ public class IrisData implements ISampleData { //storing a data from knn.IrisDat
         return data.getItemClass().contains("setosa") ? 1.0 : 0.0;
     }
 
+    @Override
+    public String getLabel() {
+        return itemClass;
+    }
+
+    @Override
+    public double[] getNumericFeatures() {
+        return features;
+    }
 }

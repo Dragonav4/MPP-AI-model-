@@ -24,4 +24,14 @@ public class LanguageData implements ISampleData{
     public String getItemClass() {
         return this.itemClass;
     }
+
+    @Override
+    public String getLabel() {
+        return this.itemClass;
+    }
+
+    @Override
+    public double[] getNumericFeatures() {
+        return this.features;
+    }
 }

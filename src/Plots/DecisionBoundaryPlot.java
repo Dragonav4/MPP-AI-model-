@@ -1,5 +1,6 @@
 package Plots;
 
+import PerceptronLayer.PerceptronL;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -9,15 +10,16 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import classifier.Perceptron;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class DecisionBoundaryPlot {
-    public static void showDecisionBoundary(double[][] testFeatures,
-                                            double[] testLabels,
-                                            Perceptron perceptron)
+    public static void showDecisionBoundary(List<double[]> testFeatures,
+                                            List<Double> testLabels,
+                                            PerceptronL perceptron)
     {
         XYSeries class0 = new XYSeries("Class 0"); // set of points
         XYSeries class1 = new XYSeries("Class 1");
@@ -25,13 +27,13 @@ public class DecisionBoundaryPlot {
         double minX = Double.MAX_VALUE;
         double maxX = -Double.MAX_VALUE;
 
-        for (int i = 0; i < testFeatures.length; i++) {
-            double x = testFeatures[i][0];
-            double y = testFeatures[i][1];
+        for (int i = 0; i < testFeatures.size(); i++) {
+            double x = testFeatures.get(i)[0];
+            double y = testFeatures.get(i)[1];
             if (x < minX) minX = x; // checking min/max for build a line(to bound it and do not write to infinity)
             if (x > maxX) maxX = x;
 
-            if (testLabels[i] == 0.0) {
+            if (testLabels.get(i) == 0.0) {
                 class0.add(x, y);
             } else {
                 class1.add(x, y);
@@ -41,7 +43,8 @@ public class DecisionBoundaryPlot {
         XYSeries boundary = new XYSeries("Decision Boundary");
         double[] w = perceptron.getWeights(); // [w0, w1]
         double thr = perceptron.getThreshold();
-
+        System.out.println("w:" + Arrays.toString(w));
+        System.out.println("thr:" + thr);
         double weights0 = w[0];
         double weights1 = w[1];
 

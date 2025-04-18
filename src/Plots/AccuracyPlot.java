@@ -10,14 +10,15 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
 
 public class AccuracyPlot {
 
-    public static void showAccuracyChart(double[] accuracies) {
+    public static void showAccuracyChart(List<Double> accuracies) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < accuracies.length; i++) {
-            dataset.addValue(accuracies[i], "Accuracy", "Epoch " + (i + 1));
+        for (int i = 0; i < accuracies.size(); i++) {
+            dataset.addValue(accuracies.get(i), "Accuracy", "Epoch " + (i + 1));
         }
 
         StandardChartTheme theme = (StandardChartTheme) StandardChartTheme.createJFreeTheme();

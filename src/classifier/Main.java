@@ -1,33 +1,29 @@
 package classifier;
 
-import knn.KNNRunner;
-import dataSet.PrepareDataset;
+import PerceptronLayer.MultiClassPerceptron;
+import PerceptronLayer.PLayerRunner;
+import PerceptronLayer.PLayerUtils;
+import PerceptronLayer.PerceptronL;
+import knn.ISampleData;
 import knn.IrisData;
+import knn.IrisDataKnnRunner;
+import knn.KNNRunner;
 
 import java.util.*;
 
 public class Main {
+    private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        String filePath = "/Users/dragonav/Desktop/Study/4thSemestr/MiniProject/MPP/src/data/language_dataSet";
 
-        Map<String, String> sampleTexts = PerceptronUtils.loadSampleTextsFromFile(filePath);
-        Map<Double, String> labelMap = Map.of(
-                0.0, "English",
-                1.0, "French",
-                2.0, "Polish"
-        );
-        String csvFilePath = "src/data/iris.csv";
-        List<IrisData> dataset = PrepareDataset.readDataSet(csvFilePath);
+        String csvFilePath = "/Users/dragonav/Desktop/Study/4thSemestr/MiniProject/MPP/resources/iris.csv";
+        List<ISampleData> dataset = MultiClassPerceptron.readDataSet(csvFilePath, IrisData::getSampleData);
+        List<ISampleData> trainSet = new ArrayList<>();
+        List<ISampleData> testSet  = new ArrayList<>();
+        MultiClassPerceptron.trainTestSplit(dataset, trainSet, testSet, 0.66);
+        KNNRunner runner = new IrisDataKnnRunner(); // todo change
+        Map<Integer, Double> modelStats = runner.runKNN(trainSet, testSet);
 
-        List<IrisData> trainSet = new ArrayList<>();
-        List<IrisData> testSet  = new ArrayList<>();
-        PrepareDataset.trainTestSplit(dataset, trainSet, testSet, 0.66);
-
-
-        Map<Integer, Double> modelStats = KNNRunner.runKNN(trainSet, testSet);
-
-        Scanner sc = new Scanner(System.in);
-        Perceptron perceptron = null; // save perceptron
+        PerceptronL perceptronl = null; // save perceptron
         boolean running = true;
 
         while (running) {
@@ -39,27 +35,30 @@ public class Main {
             System.out.println("5 - Predict language");
             System.out.println("6 - Exit");
 
-            int choice = sc.nextInt();
+            int choice = scanner.nextInt();
 
             switch (choice) {
-                case 1 -> KNNRunner.predictNewObservation(trainSet, modelStats, sc);
+                case 1 -> {
+                    System.out.println("Input count of nearest points (k)");
+                    var k = scanner.nextInt();
+                    runner.predictNewObservation(trainSet, modelStats, k);
+                }
                 case 2 -> KNNRunner.printStats(modelStats);
-                case 3 -> perceptron = PerceptronRunner.runPerceptron(trainSet, testSet, sc);
+                case 3 -> perceptronl = PerceptronRunner.runPerceptron(trainSet, testSet, IrisData::getBinaryClass, scanner);
                 case 4 -> {
-                    if (perceptron == null) {
+                    if (perceptronl == null) {
                         System.out.println("Firstly create a perceptron (выберите пункт 3).");
                     } else {
-                        PerceptronUtils.predictNewObservation(perceptron, sc);
+                        PLayerUtils.predictNewObservation(perceptronl, scanner);
                     }
                 }
                 case 6 -> {
                     System.out.println("Exiting..");
                     running = false;
                 }
-                case 5 -> PerceptronRunner.runLanguagePerceptronTraining(sc, labelMap, sampleTexts);
+                case 5 -> PLayerRunner.runLanguagePerceptronTraining(scanner);
                 default -> {System.out.println("Unknown case");}
             }
         }
-        sc.close();
     }
 }

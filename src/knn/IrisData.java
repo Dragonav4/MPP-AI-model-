@@ -1,45 +1,63 @@
 package knn;
 
-public class IrisData { //storing a data from knn.IrisData
-    float sepal_length;
-    float sepal_width;
-    float petal_length;
-    float petal_width;
-    String irisClass;
+public class IrisData implements ISampleData { //storing a data from knn.IrisData
+    double[] features;
+    String itemClass;
 
-    public IrisData(float sepal_length, float sepal_width, float petal_length, float petal_width, String irisClass) {
-        this.sepal_length = sepal_length;
-        this.sepal_width = sepal_width;
-        this.petal_length = petal_length;
-        this.petal_width = petal_width;
-        this.irisClass = irisClass;
-    }
-
-    public float[] getFeaturesOfIris() {
-        return new float[] {
-                this.petal_length,
-                this.petal_width,
-                this.sepal_length,
-                this.sepal_width,
+    public IrisData(
+            double sepal_length,
+            double sepal_width,
+            double petal_length,
+            double petal_width,
+            String itemClass) {
+        this.features = new double[] {
+                sepal_length,
+                sepal_width,
+                petal_length,
+                petal_width,
         };
-    }
-    public float getFeaturesOfIrisByIndex(int index) {
-        return switch (index) {
-            case 0 -> sepal_width;
-            case 1 -> sepal_length;
-            case 2 -> petal_width;
-            case 3 -> petal_length;
-            default -> throw new IllegalArgumentException("Uncorrected index provided :/");
-        };
+        this.itemClass = itemClass;
     }
 
-    public String getIrisClass() {
-        return irisClass;
+    @Override
+    public double[] getFeatures() {
+        return features;
+    }
+    @Override
+    public double getFeatureByIndex(int index) {
+        return features[index];
+    }
+
+    @Override
+    public String getItemClass() {
+        return itemClass;
     }
     @Override
     public String toString() {
-        return STR."knn.IrisData{sepal_length=\{sepal_length}, sepal_width=\{sepal_width}, petal_length=\{petal_length}, petal_width=\{petal_width}, irisClass='\{irisClass}\{'\''}\{'}'}";
+        return STR."knn.IrisData{sepal_length=\{features[2]}, sepal_width=\{features[3]}, petal_length=\{features[0]}, petal_width=\{features[1]}, irisClass='\{itemClass}\{'\''}\{'}'}";
     }
 
+    public static ISampleData getSampleData(String line) {
+        if (line.trim().isEmpty())
+            return null;
+        try {
+            String[] values = line.split(",");
+
+            float sepalLen = Float.parseFloat(values[0]);
+            float sepalWid = Float.parseFloat(values[1]);
+            float petalLen = Float.parseFloat(values[2]);
+            float petalWid = Float.parseFloat(values[3]);
+            String irisType = values[4];
+
+            return new IrisData(sepalLen, sepalWid, petalLen, petalWid, irisType);
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static double getBinaryClass(ISampleData data) {
+        return data.getItemClass().contains("setosa") ? 1.0 : 0.0;
+    }
 
 }

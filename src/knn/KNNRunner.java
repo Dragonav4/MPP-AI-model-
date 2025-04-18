@@ -1,12 +1,14 @@
 package knn;
 
-import classifier.EvaluationMetrics;
+import PerceptronLayer.PerceptronLayerEvaluationMetrics;
 
 import java.util.*;
-public class KNNRunner {
-    public static Map<Integer, Double> runKNN(
-            List<IrisData> trainSet,
-            List<IrisData> testSet
+
+
+public abstract class KNNRunner {
+    public Map<Integer, Double> runKNN(
+            List<ISampleData> trainSet,
+            List<ISampleData> testSet
     ) {
         Map<Integer, Double> modelStats = new LinkedHashMap<>();
         int[] kValues = {1, 3, 5, 7, 9};
@@ -14,49 +16,41 @@ public class KNNRunner {
         for (int k : kValues) {
             KNearestNeighbours knn = new KNearestNeighbours(k, trainSet);
 
-            List<String> realClasses = new ArrayList<>();
-            List<String> predictedClasses = new ArrayList<>();
+            List<Double> realClasses = new ArrayList<>();
+            List<Double> predictedClasses = new ArrayList<>();
 
-            for (IrisData testObs : testSet) {
+            for (ISampleData testObs : testSet) {
                 String prediction = knn.predict(testObs);
-                realClasses.add(testObs.getIrisClass());
-                predictedClasses.add(prediction);
+                realClasses.add(encodeClass(testObs.getItemClass()));
+                predictedClasses.add(encodeClass(prediction));
             }
 
-            double accuracy = EvaluationMetrics.measureAccuracy(realClasses, predictedClasses);
+            double accuracy = PerceptronLayerEvaluationMetrics.measureAccuracy(realClasses, predictedClasses);
 
             modelStats.put(k, accuracy);
         }
         return modelStats;
     }
 
-    public static void predictNewObservation(
-            List<IrisData> trainSet,
+    public void predictNewObservation(
+            List<ISampleData> trainSet,
             Map<Integer, Double> modelStats,
-            Scanner sc
+            int k
     ) {
-        System.out.print("Sepal Length: ");
-        float sepalLen = sc.nextFloat();
-        System.out.print("Sepal Width : ");
-        float sepalWid = sc.nextFloat();
-        System.out.print("Petal Length: ");
-        float petalLen = sc.nextFloat();
-        System.out.print("Petal Width : ");
-        float petalWid = sc.nextFloat();
+        ISampleData newObs = getSampleData();
 
-        IrisData newObs = new IrisData(sepalLen, sepalWid, petalLen, petalWid, "Unknown");
-
-        System.out.print("Choose k for KNN (e.g. 3): ");
-        int userK = sc.nextInt();
-
-        if (!modelStats.containsKey(userK)) {
+        if (!modelStats.containsKey(k)) {
             System.out.println("Invalid k value. Please choose from: " + modelStats.keySet());
         } else {
-            KNearestNeighbours knnUser = new KNearestNeighbours(userK, trainSet);
+            KNearestNeighbours knnUser = new KNearestNeighbours(k, trainSet);
             String predictedClass = knnUser.predict(newObs);
             System.out.println("Predicted Iris Class (KNN): " + predictedClass);
         }
     }
+
+    protected abstract ISampleData getSampleData();
+
+    protected abstract double encodeClass(String itemClass);
 
     public static void printStats(Map<Integer, Double> modelStats) {
         System.out.println("\nModel Statistics (KNN):");

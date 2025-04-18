@@ -4,17 +4,17 @@ package knn;
 import java.util.*;
 
 public class KNearestNeighbours {
-    private final double k; // amount of neighbours
-    private final List<IrisData> trainDataSet;
+    private final int k; // amount of neighbours
+    private final List<ISampleData> trainDataSet;
 
-    public KNearestNeighbours(double k, List<IrisData> trainDataSet) {
+    public KNearestNeighbours(int k, List<ISampleData> trainDataSet) {
         this.k = k;
         this.trainDataSet = trainDataSet;
     }
 
-    private static double calculateEuclideanDistance(IrisData data, IrisData data2) {
-        float[] feature1 = data.getFeaturesOfIris();
-        float[] feature2 = data2.getFeaturesOfIris();
+    private static double calculateEuclideanDistance(ISampleData data, ISampleData data2) {
+        var feature1 = data.getFeatures();
+        var feature2 = data2.getFeatures();
         double sum=0.0;
 
         for (int i = 0; i < feature1.length; i++) {
@@ -48,16 +48,16 @@ public class KNearestNeighbours {
         // [ (1.5), 4.2, 3.7, 2.0 ] | //cause of j-- >= j-1, we know that is right place and set here our distance
     }
 
-    public String findPredictedClass(List<IrisData> closestNeighbours) { //finding in closestNeighbours the most frequently class(count)
+    public String findPredictedClass(List<ISampleData> closestNeighbours) { //finding in closestNeighbours the most frequently class(count)
         HashMap<String, Integer> entry = new HashMap<>(); //String - class, Integer - count
-        for(IrisData neighbour : closestNeighbours) {
-            String cls = neighbour.getIrisClass();
+        for(ISampleData neighbour : closestNeighbours) {
+            String cls = neighbour.getItemClass();
             entry.put(cls, entry.getOrDefault(cls,0) +1); // met fitst -> 0 after that +1
         }
 
         //find most frequently class among others
         int maxCount = 0;
-        List<String> mostFrequentClasses = new ArrayList<>();
+        var mostFrequentClasses = new ArrayList<String>();
         for (int c : entry.values()) {if(maxCount < c ) { maxCount = c;}}
         //collect all names of those who has maxCount
         for(String s : entry.keySet()) {if(entry.get(s) == maxCount) {mostFrequentClasses.add(s);}}
@@ -71,16 +71,16 @@ public class KNearestNeighbours {
         }
     }
 
-    public String predict(IrisData newObservation) {
+    public String predict(ISampleData newObservation) {
         List<double[]> distances = new ArrayList<>(); //distances[distance,index(in trainDataSet)]
         for (int i = 0; i < trainDataSet.size(); i++) { // where distance its distance from newObs to trainDataSet
-            IrisData trainObs = trainDataSet.get(i);
+            ISampleData trainObs = trainDataSet.get(i);
             double distance = calculateEuclideanDistance(newObservation,trainObs);
             distances.add(new double[]{distance,i});
         }
         sortDistances(distances);
 
-        List<IrisData> closestNeighbours = new ArrayList<>();
+        List<ISampleData> closestNeighbours = new ArrayList<>();
         for (int i = 0; i < k; i++) {
             int idx = (int) distances.get(i)[1];
             closestNeighbours.add(trainDataSet.get(idx));

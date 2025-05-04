@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class IrisDataKnnRunner extends KNNRunner{
     @Override
-    protected ISampleData getSampleData() {
+    protected IrisData getSampleData() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Sepal Length: ");
         float sepalLen = sc.nextFloat();

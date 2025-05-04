@@ -1,14 +1,14 @@
-package NAI7;
+package NativeBayes;
 
 import Utils.HasLabel;
 
 import java.util.Map;
 
-public class Observation implements HasLabel {
-    public Map<String,String> attributes;
+public class Observation<T> implements HasLabel{
+    public Map<String,T> attributes; //numeric or categoral attrs
     public String label;
 
-    public Observation(Map<String, String> attributes, String label) {
+    public Observation(Map<String, T> attributes, String label) {
         this.attributes = attributes;
         this.label = label;
     }
@@ -17,4 +17,6 @@ public class Observation implements HasLabel {
     public String getLabel() {
         return label;
     }
+
 }
+

@@ -1,0 +1,83 @@
+en:
+The quick brown fox jumps over the lazy dog.
+en:
+This is an example of a typical English sentence used in testing.
+en:
+Programming in English requires good understanding of syntax and vocabulary.
+en:
+Many English texts are easy to process because of consistent grammar.
+en:
+Machine learning models are often trained on English datasets.
+fr:
+Le renard brun rapide saute par-dessus le chien paresseux.
+fr:
+Ceci est un exemple de phrase typique en français utilisée pour les tests.
+fr:
+La programmation en français nécessite une bonne compréhension de la syntaxe.
+fr:
+De nombreux textes français sont utilisés pour l'entraînement de modèles.
+fr:
+Les modèles d’apprentissage automatique sont souvent testés en français.
+pl:
+Szybki brązowy lis przeskakuje leniwego psa.
+pl:
+To jest przykład typowego niemieckiego zdania do celów testowych.
+pl:
+Programowanie w języku niemieckim wymaga dobrego zrozumienia składni.
+pl:
+Wiele tekstów w języku niemieckim wykorzystuje się do modelowania modeli szkoleniowych.
+pl:
+Uczenie maszynowe jest często trenowane przy użyciu niemieckich zbiorów danych.
+en:
+The quick brown fox jumps over the lazy dog.
+en:
+This is an example of a typical English sentence used in testing.
+en:
+Programming in English requires good understanding of syntax and vocabulary.
+en:
+Many English texts are easy to process because of consistent grammar.
+en:
+Machine learning models are often trained on English datasets.
+fr:
+Le renard brun rapide saute par-dessus le chien paresseux.
+fr:
+Ceci est un exemple de phrase typique en français utilisée pour les tests.
+fr:
+La programmation en français nécessite une bonne compréhension de la syntaxe.
+fr:
+De nombreux textes français sont utilisés pour l'entraînement de modèles.
+fr:
+Les modèles d’apprentissage automatique sont souvent testés en français.
+
+pl: Szybki brązowy lis przeskakuje leniwego psa.
+pl: To jest przykład typowego niemieckiego zdania do celów testowych.
+pl: Programowanie w języku niemieckim wymaga dobrego zrozumienia składni.
+pl: Wiele tekstów w języku niemieckim wykorzystuje się do modelowania modeli szkoleniowych.
+pl: Uczenie maszynowe jest często trenowane przy użyciu niemieckich zbiorów danych.
+en: Natural language processing often uses English as a base language for evaluation.
+en: English grammar structures are commonly taught in programming tutorials.
+en: Developers write documentation and code comments mostly in English.
+en: Standard datasets for AI include large corpora of English text.
+en: The English language is rich in linguistic resources and datasets.
+en: Search engines and virtual assistants are often optimized for English input.
+en: Many AI benchmarks are developed and tested primarily in English.
+en: English is considered the lingua franca of the internet and programming.
+fr: Le traitement automatique du langage utilise souvent le français comme exemple.
+fr: Les structures grammaticales françaises sont enseignées dans les cours de programmation.
+fr: Les développeurs écrivent parfois des commentaires de code en français.
+fr: Les ensembles de données contiennent aussi des corpus importants en français.
+fr: La langue française dispose de nombreuses ressources linguistiques.
+fr: Les moteurs de recherche sont parfois optimisés pour l'entrée en français.
+fr: De nombreux tests d'intelligence artificielle utilisent des textes français.
+fr: Le français reste une langue importante dans le domaine technologique.
+
+pl: W przetwarzaniu języka naturalnego do oceny często wykorzystuje się język niemiecki.
+pl: Niemieckie struktury gramatyczne są tematem wielu kursów programowania.
+pl: Programiści czasami piszą komentarze w kodzie w języku niemieckim.
+pl: Zbiory danych AI zawierają duże korpusy tekstów w języku niemieckim.
+pl: Język niemiecki oferuje wiele zasobów językowych.
+pl: Wyszukiwarki często obsługują także wpisy w języku niemieckim.
+pl: Liczne testy porównawcze AI zawierają przykłady w języku niemieckim.
+pl: Niemiecki pozostaje ważnym językiem w sektorze technologii.
+
+

@@ -1,13 +1,13 @@
 package PerceptronLayer;
 
+import NativeBayes.DoubleObservation;
 import dataSet.Dataset;
-import knn.ISampleData;
 
 import java.util.*;
 
 public class PLayerRunner {
     private static final String TRAIN_DATA_PATH = "resources/language/";
-    private static final double TRAIN_RATIO = 0.8; //0,1
+    private static final double TRAIN_RATIO = 0.1; //0,1
     private static final int INPUT_DIMENSION = 26;
     private static final int PERCEPTRON_EXTRA_PARAM = 2; //for threshold if needed
 
@@ -21,8 +21,8 @@ public class PLayerRunner {
     public static void runLanguagePerceptronTraining(Scanner sc) {
         System.out.println("Training language perceptron...");
         var dataset = Dataset.loadSampleTextsFromDirectory(TRAIN_DATA_PATH);
-        List<ISampleData> trainSet = new ArrayList<>();
-        List<ISampleData> testSet  = new ArrayList<>();
+        List<DoubleObservation> trainSet = new ArrayList<>();
+        List<DoubleObservation> testSet  = new ArrayList<>();
         MultiClassPerceptron.trainTestSplit(dataset, trainSet, testSet, TRAIN_RATIO);
 
         List<double[]> trainInputs = new ArrayList<>();
@@ -52,13 +52,13 @@ public class PLayerRunner {
     }
 
     private static void extractFeaturesAndLabels(
-            List<ISampleData> data,
+            List<DoubleObservation> data,
             List<double[]> inputs,
             List<Double> labels) {
         for (var entry : data) { //
-            String language = entry.getItemClass();
+            String language = entry.getLabel();
             double label = LANGUAGE_LABELS.getOrDefault(language, -1.0);
-            inputs.add(entry.getFeatures()); // add data to this language(each letter represents a probability being in the text
+            inputs.add(entry.getNumericFeatures()); // add data to this language(each letter represents a probability being in the text
             labels.add(label); // adds language in digit format
         }
     }

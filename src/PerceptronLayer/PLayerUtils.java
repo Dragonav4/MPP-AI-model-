@@ -1,8 +1,9 @@
 package PerceptronLayer;
+import Utils.ClassificationMetrics;
+
 import java.util.*;
 
 public class PLayerUtils {
-
     private static final Map<String, String> FOLDER_NAME_TO_LANG_CODE = Map.of(
             "english", "en",
             "french", "fr",
@@ -32,7 +33,7 @@ public class PLayerUtils {
         System.out.println("=================================================================");
         System.out.println("                        Overall metrics:");
 
-        double accuracy = PerceptronLayerEvaluationMetrics.measureAccuracy(predictedLabels, testLabels);
+        double accuracy = ClassificationMetrics.accuracy(predictedLabels, testLabels);
         System.out.printf("Final accuracy: %.2f%%%n", accuracy * 100);
 
         System.out.println("=================================================================");
@@ -44,9 +45,9 @@ public class PLayerUtils {
             List<Double> testLabels) {
         for (double classCoded = 0; classCoded < mcp.getPerceptronMap().size(); classCoded++) {
             String language = LANGUAGE_DECODER.getOrDefault(classCoded, "Unknown");
-            double precision = PerceptronLayerEvaluationMetrics.precision(testLabels, predictedLabels, classCoded);
-            double recall = PerceptronLayerEvaluationMetrics.recall(testLabels, predictedLabels, classCoded);
-            double fmeasure = PerceptronLayerEvaluationMetrics.fMeasure(precision, recall);
+            double precision = ClassificationMetrics.precision(testLabels, predictedLabels, classCoded);
+            double recall = ClassificationMetrics.recall(testLabels, predictedLabels, classCoded);
+            double fmeasure = ClassificationMetrics.fMeasure(precision, recall);
 
             String formattedRow = String.format("| %-8s | %8.2f%% | %6.2f%% | %7.2f%% |",
                     language, precision * 100, recall * 100, fmeasure * 100);

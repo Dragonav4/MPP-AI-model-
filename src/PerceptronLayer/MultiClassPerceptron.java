@@ -1,6 +1,6 @@
 package PerceptronLayer;
 
-import knn.ISampleData;
+import NativeBayes.DoubleObservation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -53,22 +53,22 @@ public class MultiClassPerceptron {
         return perceptronMap;
     }
 
-    public static void trainTestSplit(List<ISampleData> dataSet, // whole dataSet
-                                      List<ISampleData> trainSet, // teach model
-                                      List<ISampleData> testSet, // test model
+    public static void trainTestSplit(List<DoubleObservation> dataSet, // whole dataSet
+                                      List<DoubleObservation> trainSet, // teach model
+                                      List<DoubleObservation> testSet, // test model
                                       double trainRatio) { // 66% train and 34% test
         trainSet.clear();
         testSet.clear();
         List<String> uniqueClasses = new ArrayList<>();
-        for (ISampleData ISampleData : dataSet) { // Finding all unique classes which are not in our list
-            if (!uniqueClasses.contains(ISampleData.getItemClass())) {
-                uniqueClasses.add(ISampleData.getItemClass());
+        for (var ISampleData : dataSet) { // Finding all unique classes which are not in our list
+            if (!uniqueClasses.contains(ISampleData.getLabel())) {
+                uniqueClasses.add(ISampleData.getLabel());
             }
         }
         for (String irisClass : uniqueClasses) { // adds data to correspond class
-            List<ISampleData> irisClassData = new ArrayList<>();
-            for (ISampleData data : dataSet) {
-                if (data.getItemClass().equals(irisClass)) {
+            List<DoubleObservation> irisClassData = new ArrayList<>();
+            for (var data : dataSet) {
+                if (data.getLabel().equals(irisClass)) {
                     irisClassData.add(data);
                 }
             }
@@ -89,8 +89,8 @@ public class MultiClassPerceptron {
     }
 
 
-    public static List<ISampleData> readDataSet(String path, Function<String, ISampleData> inputParser) {
-        List<ISampleData> result = new ArrayList<>();
+    public static List<DoubleObservation> readDataSet(String path, Function<String, DoubleObservation> inputParser) {
+        List<DoubleObservation> result = new ArrayList<>();
         try {
             BufferedReader bf = new BufferedReader(new FileReader(path));
             String line;
@@ -106,19 +106,4 @@ public class MultiClassPerceptron {
         return result;
     }
 
-
-//    public static PerceptronData trainTestSplit(Map<String, List<double[]>> samples, double trainRatio) {
-//        Map<String, List<double[]>> trainMap = new HashMap<>();
-//        Map<String, List<double[]>> testMap = new HashMap<>();
-//        for (Map.Entry<String, List<double[]>> sample : samples.entrySet()) {
-//            List<double[]> classVectors = sample.getValue();
-//            Collections.shuffle(classVectors);
-//
-//            int ratioIndex = (int) (classVectors.size() * trainRatio);
-//
-//            trainMap.put(sample.getKey(), (classVectors.subList(0, ratioIndex)));
-//            testMap.put(sample.getKey(), (classVectors.subList(ratioIndex, classVectors.size())));
-//        }
-//        return new PerceptronData(trainMap, testMap);
-//    }
 }

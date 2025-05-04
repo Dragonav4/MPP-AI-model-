@@ -1,13 +1,12 @@
 package classifier;
 
+import NativeBayes.DoubleObservation;
 import PerceptronLayer.MultiClassPerceptron;
 import PerceptronLayer.PLayerRunner;
 import PerceptronLayer.PLayerUtils;
 import PerceptronLayer.PerceptronL;
-import knn.ISampleData;
 import knn.IrisData;
-import knn.IrisDataKnnRunner;
-import knn.KNNRunner;
+import knn.KNNPipeline;
 
 import java.util.*;
 
@@ -16,12 +15,11 @@ public class Main {
     public static void main(String[] args) {
 
         String csvFilePath = "/Users/dragonav/Desktop/Study/4thSemestr/MiniProject/MPP/resources/iris.csv";
-        List<ISampleData> dataset = MultiClassPerceptron.readDataSet(csvFilePath, IrisData::getSampleData);
-        List<ISampleData> trainSet = new ArrayList<>();
-        List<ISampleData> testSet  = new ArrayList<>();
+        List<DoubleObservation> dataset = MultiClassPerceptron.readDataSet(csvFilePath, IrisData::getSampleData);
+        List<DoubleObservation> trainSet = new ArrayList<>();
+        List<DoubleObservation> testSet  = new ArrayList<>();
         MultiClassPerceptron.trainTestSplit(dataset, trainSet, testSet, 0.66);
-        KNNRunner runner = new IrisDataKnnRunner(); // todo change
-        Map<Integer, Double> modelStats = runner.runKNN(trainSet, testSet);
+        Map<Integer, Double> modelStats = KNNPipeline.runIrisKnn(trainSet, testSet);
 
         PerceptronL perceptronl = null; // save perceptron
         boolean running = true;
@@ -41,9 +39,9 @@ public class Main {
                 case 1 -> {
                     System.out.println("Input count of nearest points (k)");
                     var k = scanner.nextInt();
-                    runner.predictNewObservation(trainSet, modelStats, k);
+                    KNNPipeline.predictIrisObservation(trainSet, modelStats, k);
                 }
-                case 2 -> KNNRunner.printStats(modelStats);
+                case 2 -> KNNPipeline.printStats(modelStats);
                 case 3 -> perceptronl = PerceptronRunner.runPerceptron(trainSet, testSet, IrisData::getBinaryClass, scanner);
                 case 4 -> {
                     if (perceptronl == null) {

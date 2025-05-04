@@ -1,7 +1,6 @@
 package dataSet;
 
-import knn.ISampleData;
-import knn.LanguageData;
+import NativeBayes.DoubleObservation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,9 +11,9 @@ import java.util.List;
 import java.util.function.Function;
 
 public class Dataset {
-    public static List<double[]> toFeatures(List<ISampleData> dataSet, int f1, int f2) {
+    public static List<double[]> toFeatures(List<DoubleObservation> dataSet, int f1, int f2) {
         List<double[]> features = new ArrayList<>();
-        for (ISampleData data : dataSet) {
+        for (var data : dataSet) {
             double[] pair = new double[2];
             pair[0] = data.getFeatureByIndex(f1); //sepal_width
             pair[1] = data.getFeatureByIndex(f2); //sepal_length
@@ -23,16 +22,16 @@ public class Dataset {
         return features;
     }
 
-    public static List<Double> toLabels(List<ISampleData> dataSet, Function<ISampleData, Double> mapper) {
+    public static List<Double> toLabels(List<DoubleObservation> dataSet, Function<DoubleObservation, Double> mapper) {
         List<Double> labels = new ArrayList<>();
-        for(ISampleData data : dataSet) {
+        for(var data : dataSet) {
             labels.add(mapper.apply(data));
         }
         return labels;
     }
 
-    public static List<ISampleData> loadSampleTextsFromDirectory(String folderPath) {
-        List<ISampleData> result = new ArrayList<>();
+    public static List<DoubleObservation> loadSampleTextsFromDirectory(String folderPath) {
+        List<DoubleObservation> result = new ArrayList<>();
         File mainFolder = new File(folderPath);
 
         if (!mainFolder.exists() || !mainFolder.isDirectory()) {

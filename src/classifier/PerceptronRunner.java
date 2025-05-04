@@ -1,20 +1,20 @@
 package classifier;
 
+import NativeBayes.DoubleObservation;
 import PerceptronLayer.PerceptronL;
-import PerceptronLayer.PerceptronLayerEvaluationMetrics;
 import Plots.AccuracyPlot;
 import Plots.DecisionBoundaryPlot;
+import Utils.ClassificationMetrics;
 import dataSet.Dataset;
-import knn.ISampleData;
 
 import java.util.*;
 import java.util.function.Function;
 
 public class PerceptronRunner {
     public static PerceptronL runPerceptron(
-            List<ISampleData> trainSet,
-            List<ISampleData> testSet,
-            Function<ISampleData, Double> mapper,
+            List<DoubleObservation> trainSet,
+            List<DoubleObservation> testSet,
+            Function<DoubleObservation, Double> mapper,
             Scanner sc)
     {
         List<double[]> trainFeatures = Dataset.toFeatures(trainSet, 0, 1); // sepal_width and // sepal_length
@@ -38,10 +38,10 @@ public class PerceptronRunner {
             perceptronPredicted.add((double) perceptronl.predict(testFeature));
         }
 
-        double accuracy = PerceptronLayerEvaluationMetrics.measureAccuracy(testLabels, perceptronPredicted);
-        double precision = PerceptronLayerEvaluationMetrics.precision(testLabels, perceptronPredicted,1);
-        double recall = PerceptronLayerEvaluationMetrics.recall(testLabels, perceptronPredicted,1);
-        double fmeasure = PerceptronLayerEvaluationMetrics.fMeasure(precision,recall);
+        double accuracy = ClassificationMetrics.accuracy(testLabels, perceptronPredicted);
+        double precision = ClassificationMetrics.precision(testLabels, perceptronPredicted,1.0);
+        double recall = ClassificationMetrics.recall(testLabels, perceptronPredicted,1.0);
+        double fmeasure = ClassificationMetrics.fMeasure(precision,recall);
         System.out.printf("classifier.Perceptron: accuracy on test set = %.2f%%\n", accuracy * 100.0);
         System.out.printf("classifier.Perceptron: fmeasure: %.2f%%\n", fmeasure * 100.0);
 

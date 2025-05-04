@@ -1,5 +1,6 @@
 package knn;
 
+import NativeBayes.DoubleObservation;
 import PerceptronLayer.PerceptronLayerEvaluationMetrics;
 
 import java.util.*;
@@ -7,8 +8,8 @@ import java.util.*;
 
 public abstract class KNNRunner {
     public Map<Integer, Double> runKNN(
-            List<ISampleData> trainSet,
-            List<ISampleData> testSet
+            List<DoubleObservation> trainSet,
+            List<DoubleObservation> testSet
     ) {
         Map<Integer, Double> modelStats = new LinkedHashMap<>();
         int[] kValues = {1, 3, 5, 7, 9};
@@ -19,9 +20,9 @@ public abstract class KNNRunner {
             List<Double> realClasses = new ArrayList<>();
             List<Double> predictedClasses = new ArrayList<>();
 
-            for (ISampleData testObs : testSet) {
+            for (DoubleObservation testObs : testSet) {
                 String prediction = knn.predict(testObs);
-                realClasses.add(encodeClass(testObs.getItemClass()));
+                realClasses.add(encodeClass(testObs.getLabel()));
                 predictedClasses.add(encodeClass(prediction));
             }
 
@@ -33,11 +34,11 @@ public abstract class KNNRunner {
     }
 
     public void predictNewObservation(
-            List<ISampleData> trainSet,
+            List<DoubleObservation> trainSet,
             Map<Integer, Double> modelStats,
             int k
     ) {
-        ISampleData newObs = getSampleData();
+        DoubleObservation newObs = getSampleData();
 
         if (!modelStats.containsKey(k)) {
             System.out.println("Invalid k value. Please choose from: " + modelStats.keySet());
@@ -48,7 +49,7 @@ public abstract class KNNRunner {
         }
     }
 
-    protected abstract ISampleData getSampleData();
+    protected abstract IrisData getSampleData();
 
     protected abstract double encodeClass(String itemClass);
 

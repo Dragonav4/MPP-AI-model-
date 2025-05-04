@@ -17,6 +17,7 @@ public class Quantizer {
             double interval = (max[i] - min[i]) / bins;
             int bin = (int) ((features[i] - min[i]) / interval);
             if (bin >= bins) bin = bins - 1;
+            if (bin < 0) bin = 0;
             categories[i] = "bin_" + bin;
         }
         return categories;

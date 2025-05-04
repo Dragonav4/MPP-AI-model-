@@ -11,19 +11,21 @@ public class Experiment<T> {
     public Experiment(DataLoader<T> loader,
                       Classifier<T> classifier,
                       RatioSplitter<T> splitter) {
-        this.loader      = loader;
-        this.classifier  = classifier;
-        this.splitter    = splitter;
+        this.loader = loader;
+        this.classifier = classifier;
+        this.splitter = splitter;
     }
 
     public void run() throws Exception {
-        List<T> all   = loader.load();
+        List<T> all = loader.load();
         List<T> train = new ArrayList<>(), test = new ArrayList<>();
         splitter.split(all, train, test);
 
         classifier.train(train);
-        List<String> real = test.stream().map(t -> ((HasLabel)t).getLabel()).toList();
-        List<String> pred = classifier.predictAll(test);
+        //each object in List cast to HasLabel(Interface) and via Interface gets REAL labels(Interface will be generic for apply any dype of data)
+        List<String> real = test.stream().map(t -> ((HasLabel) t).getLabel()).toList(); //real labels|
+
+        List<String> pred = classifier.predictAll(test); // pred labels
 
         ClassificationMetrics.printAll(real, pred);
     }

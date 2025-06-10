@@ -22,6 +22,7 @@ public class K_means {
         return sum;
     }
 
+    //finds closest centroid by distance and return idx of it
     private int findClosestVector(double[] vector) {
         if (centroids.isEmpty()) {
             throw new IllegalStateException("Centroids are not initialized");
@@ -38,13 +39,13 @@ public class K_means {
         return bestIdx;
     }
 
-
     private double[] computeCentroid(List<DoubleObservation> cluster) {
+        if (cluster == null || cluster.isEmpty()) {return null;}
         //GetFirst just to see dim aka [0.0 ,1.0 ,0.0 ,2.0] - 4
         double[] dimension = cluster.get(0).getNumericFeatures();
         double[] c = new double[dimension.length];
         for (DoubleObservation observation : cluster) {
-            //Adding each element and normalize by dividing on amount of objects
+            //Adding each element and dividing on amount of objects
             double[] feat = observation.getNumericFeatures();
             for (int i = 0; i < dimension.length; i++) {
                 c[i] += feat[i];
@@ -70,22 +71,32 @@ public class K_means {
         //round-robin splitting points into clusters
         for (int i = 0; i < n; i++) clusters.get(i % k).add(data.get(indices.get(i)));
         centroids.clear();
-        for (List<DoubleObservation> cluster : clusters) centroids.add(computeCentroid(cluster));
-
+        for (List<DoubleObservation> cluster : clusters) {
+        if (cluster.isEmpty()) {
+            // if missing centroid picking a random data
+            int randomIndex = new Random().nextInt(data.size());
+            centroids.add(data.get(randomIndex).getNumericFeatures());
+        } else {
+            centroids.add(computeCentroid(cluster));
+        }
+    }
         boolean changed;
         do {
             changed=false;
             clusters = new ArrayList<>();
             for (int i = 0; i < k; i++) clusters.add(new ArrayList<>());
 
-            //redistribute all dots to nearest centroid
+            //redistribute all dots to nearest centroid and if ... switch to antoher cluster
             for (DoubleObservation doubleObservation : data) {
                 int closest = findClosestVector(doubleObservation.getNumericFeatures());
                 clusters.get(closest).add(doubleObservation);
             }
             //recompute centroids and check on changing
             for (int i = 0; i < k; i++) {
-                double[] newCentroid = computeCentroid(clusters.get(i));
+                List<DoubleObservation> cluster = clusters.get(i);
+                if (cluster.isEmpty()) continue;
+
+                double[] newCentroid = computeCentroid(cluster);
                 if (!Arrays.equals(newCentroid, centroids.get(i))) {
                     changed = true;
                     centroids.set(i, newCentroid);

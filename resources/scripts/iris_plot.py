@@ -29,7 +29,7 @@ scores = [] # also just for silhouette_score
 for x,y in pairs:
     X = df[[x,y]].values
     scores.append(silhouette_score(X, labels)) # reads how well the clusters are separated in this 2D projection
-# peak with maximum result
+# peak with maximum resultЬMetrics
 best_idx = max(range(len(pairs)), key=lambda i: scores[i])
 
 # 4) Grid

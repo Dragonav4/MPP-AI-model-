@@ -28,12 +28,12 @@ public class IrisData extends DoubleObservation
             String itemClass) {
         super(features, itemClass);
     }
-    @Override
-    public String toString() {
-        var features = getNumericFeatures();
-        var itemClass = this.label;
-        return STR."knn.IrisData{sepal_length=\{features[2]}, sepal_width=\{features[3]}, petal_length=\{features[0]}, petal_width=\{features[1]}, irisClass='\{itemClass}\{'\''}\{'}'}";
-    }
+//    @Override
+//    public String toString() {
+//        var features = getNumericFeatures();
+//        var itemClass = this.label;
+//        return STR."knn.IrisData{sepal_length=\{features[2]}, sepal_width=\{features[3]}, petal_length=\{features[0]}, petal_width=\{features[1]}, irisClass='\{itemClass}\{'\''}\{'}'}";
+//    }
 
     public static DoubleObservation getSampleData(String line) {
         if (line.trim().isEmpty())

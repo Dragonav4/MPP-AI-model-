@@ -19,23 +19,46 @@ import java.util.stream.Collectors;
 
 
 public class ClusterPipeline {
+    private static class ClusteringResult {
+        final List<Integer> labels;
+        final List<double[]> centroids;
+        final double score;
+        ClusteringResult(List<Integer> labels, List<double[]> centroids, double score) {
+            this.labels = labels;
+            this.centroids = centroids;
+            this.score = score;
+        }
+    }
+
+    private static ClusteringResult findBestClustering(List<DoubleObservation> data, int k, int runs) {
+        double bestScore = Double.POSITIVE_INFINITY;
+        List<Integer> bestLabels = null;
+        List<double[]> bestCentroids = null;
+        for (int run = 0; run < runs; run++) {
+            K_means kmRun = new K_means(k);
+            ClusterAdapter adapterRun = new ClusterAdapter(kmRun);
+            adapterRun.train(data);
+            List<Integer> labelsRun = kmRun.predictAll(data);
+            List<double[]> centroidsRun = kmRun.getCentroids();
+            double scoreRun = ClassificationMetrics.wcss(data, labelsRun, centroidsRun);
+            if (scoreRun < bestScore) {
+                bestScore = scoreRun;
+                bestLabels = labelsRun;
+                bestCentroids = centroidsRun;
+            }
+        }
+        return new ClusteringResult(bestLabels, bestCentroids, bestScore);
+    }
+
     public static void IrisCluster() throws Exception {
         GenericCsvLoader<DoubleObservation> loader = new GenericCsvLoader<>(
                 "resources/iris.csv",
                 (line, _) -> IrisData.getSampleData(line)
         );
         List<DoubleObservation> data = loader.load();
-
-        K_means km = new K_means(3);
-        ClusterAdapter adapter = new ClusterAdapter(km);
-        adapter.train(data);
-
-        List<Integer> labels = km.predictAll(data);
-        List<double[]> centroids = km.getCentroids();
-
-        double score = ClassificationMetrics.wcss(data, labels, centroids);
-        System.out.printf("WCSS = %.4f%n", score);
-        IrisClusterPlot.generatePlot(data, labels, centroids, "iris_clustered.csv",score);
+        ClusteringResult result = findBestClustering(data, 3, 50);
+        System.out.printf("Best WCSS after %d runs = %.4f%n", 50, result.score);
+        IrisClusterPlot.generatePlot(data, result.labels, result.centroids, "iris_clustered.csv", result.score);
     }
 
     public static void LanguageCluster() {
